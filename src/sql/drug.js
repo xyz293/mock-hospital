@@ -20,18 +20,14 @@ module.exports = {
             });
         })
     },
-    purchase: (id,drugid,num,price,productname) => {
+     /*发药操作*/
+    dispense : (drugid,num) => {
         return new Promise((resolve, reject) => {
-            db.query('update mock.drug set stock = stock - ? where id = ?',[num,drugid],(err) => {
+            db.query('update mock.drug set stock = stock - ? where id = ?',[num,drugid],(err,result) => {
                 if (err) {
                     reject(err);
                 }
-            db.query('insert into mock.orders (user_id,product_name,price,quantity) values (?,?,?,?)',[id,drugid,price,num,productname],(err,result) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(result);
-            })
+            resolve(result);
             });
         })
     },
@@ -45,4 +41,5 @@ module.exports = {
             });
         })
     },
+
 }

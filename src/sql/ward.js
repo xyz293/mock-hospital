@@ -12,7 +12,7 @@ module.exports = {
     },
     createbed: (ward_id,status,patient_id,bed_no) => {
         return new Promise((resolve, reject) => {
-            db.query('insert into mock.bed (ward_id,status,patient_id,bed_no) values (?,?,?,?)',[ward_id,status,patient_id,bed_no],(err,result) => {
+            db.query('insert into mock.beds (ward_id,status,patient_id,bed_no) values (?,?,?,?)',[ward_id,status,patient_id,bed_no],(err,result) => {
                 if (err) {
                     reject(err);
                 }

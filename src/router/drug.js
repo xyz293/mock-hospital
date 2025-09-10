@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const drug = require('../sql/drug');
+const priover = require('../sql/priover');
 router.get('/get',async (req,res)=>{
     try {
         const result = await drug.getdrug();
@@ -26,28 +27,14 @@ router.get('/get',async (req,res)=>{
         });
     }
 })
-router.post('/purchase',async (req,res)=>{
+router.post('/updrug',async (req,res)=>{   //提交订单
     try {
-        const result = await drug.purchase(req.body.id,req.body.drugid,req.body.num,req.body.price,req.body.productname);
-        console.log(result);
-        if(result){
-            res.status(200).json({
-                code: 200,
-                msg: '购买成功',
-                data: result,
-            });
-        }
-        else{
-            res.status(400).json({
-                code: 400,
-                msg: '购买失败',
-            });
-        }
+        const result = await priover.adddrug(req.body.id,req.body.name,req.body.amount,req.body.unit_price);
     } catch (err) {
         console.log(err);
         res.status(500).json({
             code: 500,
-            msg: '购买失败',
+            msg: '更新失败',
         });
     }
 })

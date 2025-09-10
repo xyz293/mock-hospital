@@ -1,6 +1,9 @@
 const users = require('../sql/user');
+const check_message = require('../sql/check_message');
+const priover = require('../sql/priover');
 const express = require('express');
 const router = express.Router();
+const appoint = require('../sql/appoint');
 const getToken = require('../middle/token');
 router.post('/regiser',async (req,res)=>{
     const {username,password,role} = req.body;
@@ -98,7 +101,102 @@ router.get('/userlist',async (req,res)=>{
 })
 router.post('/order',async (req,res)=>{
     try {
-        const result = await users.getorder(req.body.id);
+        const result = await users.getdrugorder(req.body.id);
+        if(result){
+            res.status(200).json({
+                code: 200,
+                msg: '获取订单成功',
+                data: result,
+            });
+        }
+        else{
+            res.status(400).json({
+                code: 400,
+                msg: '获取订单失败',
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            code: 500,
+            msg: '获取订单失败',
+        });
+    }
+})
+router.get('/checkmessage/:id',async (req,res)=>{
+    const id = req.params.id;
+    try {
+        const result = await check_message.get(id);
+        if(result){
+            res.status(200).json({
+                code: 200,
+                msg: '获取咨询成功',
+                data: result,
+            });
+        }
+        else{
+            res.status(400).json({
+                code: 400,
+                msg: '获取咨询失败',
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            code: 500,
+            msg: '获取咨询失败',
+        });
+    }
+})
+router.post('/myorder',async (req,res)=>{
+    try {
+        const result = await users.getmyorder(req.body.id);
+        if(result){
+            res.status(200).json({
+                code: 200,
+                msg: '获取订单成功',
+                data: result,
+            });
+        }
+        else{
+            res.status(400).json({
+                code: 400,
+                msg: '获取订单失败',
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            code: 500,
+            msg: '获取订单失败',
+        });
+    }
+})
+router.delete('/outdrug/:id',async (req,res)=>{
+    const id = req.params.id;
+    try {
+        const result = await priover.outdrug(id);
+        if(result){
+            res.status(200).json({
+                code: 200,
+                msg: '删除成功',
+                data: result,
+            });
+        }
+        else{
+            res.status(400).json({
+                code: 400,
+                msg: '删除失败',
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            code: 500,
+            msg: '删除失败',
+        });
+    }
+})
+router.get('/myappoint/:id',async (req,res)=>{
+    const id = req.params.id;
+    try {
+        const result = await appoint.getpersonappoint(id);
         if(result){
             res.status(200).json({
                 code: 200,
